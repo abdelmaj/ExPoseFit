@@ -1,0 +1,88 @@
+{
+  "date": "2026-08-18 10:57:53",
+  "classes": [
+    "push up",
+    "situp",
+    "squat"
+  ],
+  "sampling": {
+    "train_per_class": 700,
+    "val_per_class": 100,
+    "test_per_class": 100,
+    "seed": 42
+  },
+  "split_sizes": {
+    "train": 2100,
+    "val": 300,
+    "test": 300
+  },
+  "class_counts": {
+    "train": {
+      "push up": 700,
+      "situp": 700,
+      "squat": 700
+    },
+    "val": {
+      "push up": 100,
+      "situp": 100,
+      "squat": 100
+    },
+    "test": {
+      "push up": 100,
+      "situp": 100,
+      "squat": 100
+    }
+  },
+  "model_type": "Recognizer2D",
+  "backbone": {
+    "depth": 50,
+    "norm_eval": false,
+    "type": "ResNet"
+  },
+  "head": {
+    "average_clips": "prob",
+    "consensus": {
+      "dim": 1,
+      "type": "AvgConsensus"
+    },
+    "dropout_ratio": 0.4,
+    "in_channels": 2048,
+    "init_std": 0.01,
+    "num_classes": 3,
+    "spatial_type": "avg",
+    "type": "TSNHead"
+  },
+  "optimizer": {
+    "clip_grad": {
+      "max_norm": 40,
+      "norm_type": 2
+    },
+    "optimizer": {
+      "lr": 0.005,
+      "momentum": 0.9,
+      "type": "SGD",
+      "weight_decay": 0.0001
+    }
+  },
+  "scheduler": [
+    {
+      "begin": 0,
+      "by_epoch": true,
+      "end": 3,
+      "start_factor": 0.1,
+      "type": "LinearLR"
+    },
+    {
+      "T_max": 27,
+      "begin": 3,
+      "by_epoch": true,
+      "end": 30,
+      "eta_min": 1e-05,
+      "type": "CosineAnnealingLR"
+    }
+  ],
+  "max_epochs": 30,
+  "best_checkpoint": "/kaggle/working/work_dirs/tsn_k400_3class/best_acc_top1_epoch_1.pth",
+  "work_dir": "/kaggle/working/work_dirs/tsn_k400_3class",
+  "pretrained_ckpt": "https://download.openmmlab.com/mmaction/v1.0/recognition/tsn/tsn_imagenet-pretrained-r50_8xb32-1x1x8-100e_kinetics400-rgb/tsn_imagenet-pretrained-r50_8xb32-1x1x8-100e_kinetics400-rgb_20220906-2692d16c.pth"
+}
