@@ -13,7 +13,7 @@ Video access is subject to original rights and availability. The annotated video
 
 ## Code
 
-`code/` contains the original assessment, MoveNet and utility modules, TSN training notebook and configuration, angle export and online pose benchmark notebooks. The original `constants.py` dependency is not included in this draft; obtain it from the authors before running the core modules. The notebooks/configuration retain original Colab/Kaggle paths; adjust them to your local data and code directories. Install MMAction2 and compatible PyTorch/MMCV/MMEngine separately following the [official instructions](https://mmaction2.readthedocs.io/). Exact historical dependency versions have not been verified. Model weights are not included.
+`code/` contains the original assessment, MoveNet and utility modules, TSN training notebook and configuration, angle export and online pose benchmark notebooks. The notebooks/configuration retain original Colab/Kaggle paths; adjust them to your local data and code directories. Install MMAction2 and compatible PyTorch/MMCV/MMEngine separately following the [official instructions](https://mmaction2.readthedocs.io/). Exact historical dependency versions have not been verified. Model weights are not included.
 
 ## Experiments
 
