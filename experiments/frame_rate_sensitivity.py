@@ -1,4 +1,3 @@
-"""Downsample cached raw angle traces; no pose inference. Requires previous two scripts."""
 import argparse
 from pathlib import Path
 from collections import deque
