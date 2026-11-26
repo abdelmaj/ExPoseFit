@@ -25,4 +25,3 @@ python experiments/threshold_cv_verified.py
 
 This script uses the corrected ground-truth manifest and writes result CSVs into `experiments/`. The other scripts require the original per-frame raw angle trace CSVs (not included in this draft). Run each with `--help` for arguments. `experiments/smoothing_reference.csv` contains the corrected reference predictions used by the updating and frame-rate scripts.
 
-This is a minimal research-code snapshot, not a complete executable reproduction of every experiment. Additional baseline code, raw traces, and environment details may be needed.
