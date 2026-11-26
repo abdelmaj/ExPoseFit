@@ -63,6 +63,6 @@ def main(args):
         for e,h in list(g.groupby('exercise'))+[('overall',g)]:
             w=h.pivot(index=['video','ground_truth'],columns='adaptive',values='predicted'); y=w.index.get_level_values('ground_truth').to_numpy(); a=abs(w[False].to_numpy()-y); b=abs(w[True].to_numpy()-y); n=len(a); idx=rng.integers(n,size=(10000,n)); diff=a-b
             results.append(dict(filter=name,exercise=e,n=n,frozen_mae=a.mean(),adaptive_mae=b.mean(),frozen_rmse=np.sqrt((a*a).mean()),adaptive_rmse=np.sqrt((b*b).mean()),frozen_exact=(a==0).mean(),adaptive_exact=(b==0).mean(),frozen_within1=(a<=1).mean(),adaptive_within1=(b<=1).mean(),frozen_minus_adaptive=diff.mean(),ci_low=np.quantile(diff[idx].mean(1),.025),ci_high=np.quantile(diff[idx].mean(1),.975)))
-    q=pd.DataFrame(results); q.to_csv(out/'updating_summary.csv',index=False); pass; pass
+    q=pd.DataFrame(results); q.to_csv(out/'updating_summary.csv',index=False); None; None
 if __name__=='__main__':
     p=argparse.ArgumentParser(); p.add_argument('--traces',required=True); p.add_argument('--labels',required=True); p.add_argument('--reference',required=True); p.add_argument('--out',required=True); main(p.parse_args())

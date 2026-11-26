@@ -63,7 +63,6 @@ def smooth_data(data, window_length=8):
     try:
         return savgol_filter(data, window_length=window_length, polyorder=2)
     except Exception as error:
-        pass
         return data
 
 
@@ -86,7 +85,6 @@ def smooth_data(data, window_length=8):
 
 def read_video_frames(video_path: str) -> Tuple[List[cv2.typing.MatLike], int, float]:
     now = datetime.now()
-    pass
     vid = cv2.VideoCapture(video_path)
 
     if not vid.isOpened():
@@ -103,7 +101,6 @@ def read_video_frames(video_path: str) -> Tuple[List[cv2.typing.MatLike], int, f
         frames.append(frame)
 
     vid.release()
-    pass
     return [frames, frame_count, frame_rate]
 
 
@@ -282,8 +279,6 @@ def determine_highest_confidence_for_lower(keypoints):
         keypoint[Keypoints.left_knee] +
         keypoint[Keypoints.left_ankle])[2]
 
-    pass
-    pass
     
     return "right" if right_confidence > left_confidence else "left"
 
@@ -317,7 +312,5 @@ def determine_highest_confidence_for_upper(keypoints):
         keypoint[Keypoints.left_wrist])[2]
 
 
-    pass
-    pass
     
     return "right" if right_confidence > left_confidence else "left"

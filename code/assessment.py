@@ -351,7 +351,6 @@ def asses_form_of_squat(keypoints):
         kp.numpy() if hasattr(kp, "numpy") else np.asarray(kp)
         for kp in keypoints
     ]
-    pass
 
     angles = extract_squat_angles_confidence_aware(keypoints)
 
@@ -386,7 +385,6 @@ def asses_form_of_squat(keypoints):
             if a < down_th:
                 state = "DOWN"
                 rep_bottom = a
-                pass
 
         elif state == "DOWN":
             rep_bottom = min(rep_bottom, a)
@@ -394,10 +392,8 @@ def asses_form_of_squat(keypoints):
             if a > up_th and frames_since_last_rep >= min_frames_between_reps:
                 if rep_bottom < down_th:
                     valid_reps += 1
-                    pass
                 else:
                     invalid_reps += 1
-                    pass
 
                 state = "UP"
                 rep_bottom = float("inf")
@@ -415,7 +411,6 @@ def asses_form_of_pushup(keypoints):
         kp.numpy() if hasattr(kp, "numpy") else np.asarray(kp)
         for kp in keypoints
     ]
-    pass
 
     angles = extract_pushup_angles_confidence_aware(keypoints)
 
@@ -424,9 +419,6 @@ def asses_form_of_pushup(keypoints):
 
     angles = gaussian_smoothing(angles)
 
-    pass
-    pass
-    pass
 
     min_a = min(angles)
     max_a = max(angles)
@@ -441,7 +433,6 @@ def asses_form_of_pushup(keypoints):
     down_th = min_a + 0.35 * motion_range
     up_th = min_a + 0.75 * motion_range
 
-    pass
 
     feedback = []
     valid_reps = 0
@@ -507,22 +498,17 @@ def asses_form_of_pushup(keypoints):
     if valid_reps == 0 and shallow_reps == 0 and incomplete_up_reps == 0:
         feedback.append("No valid pushup repetitions detected")
 
-    pass
 
     return [valid_reps, feedback]
 
 def asses_form_of_situps(keypoints):
     [shoulder_hip_knee_angles, hip_knee_ankle_angles, _] = extract_situp_angles(keypoints)
-    pass
 
     if len(shoulder_hip_knee_angles) == 0:
         return [0, ["Pose detection is unreliable for this video"]]
 
     angles = gaussian_smoothing(shoulder_hip_knee_angles)
 
-    pass
-    pass
-    pass
 
     min_a = min(angles)
     max_a = max(angles)
@@ -537,7 +523,6 @@ def asses_form_of_situps(keypoints):
     down_th = min_a + 0.3 * motion_range
     up_th = min_a + 0.7 * motion_range
 
-    pass
 
     HIP_KNEE_ANKLE_MIN = 20
     HIP_KNEE_ANKLE_MAX = 80
@@ -612,7 +597,6 @@ def asses_form_of_situps(keypoints):
     if valid_reps == 0 and shallow_reps == 0 and incomplete_up_reps == 0:
         feedback.append("No valid situp repetitions detected")
 
-    pass
 
     return [valid_reps, feedback]
 
@@ -680,7 +664,6 @@ def asses_form_of_situps(keypoints):
 '''
 
 def asses_form_of_bridges(keypoints):
-    pass
     
     [shoulder_hip_knee_angles,
      hip_knee_ankle_angles, hip_cords] = extract_situp_angles(keypoints)
@@ -709,14 +692,11 @@ def asses_form_of_bridges(keypoints):
     if reps > 0:
         first_return_angle_index = shoulder_hip_knee_angles.index(
             [item for item in shoulder_hip_knee_angles if item > RETURN_THRESHOLD][0])
-        pass
-        pass
         return [reps, [feedback, [str(x) for x in hip_cords[first_return_angle_index]]]]
     return [reps, [feedback, []]]
 
 
 def asses_form_of_hip_abduction(keypoints):
-    pass
     [angles, xcords] = extract_situp_hip_abduction_from_keypoints(keypoints)
     MIN_THRESHOLD = 0.09
     RETURN_THRESHOLD = 0.13
@@ -744,7 +724,6 @@ def assess_form_of_JumpingJack(keypoints):
     Returns:
     list: [number of reps, feedback list]
     """
-    pass
     filename = str(math.floor(random.random() * 2**32))
     angles = extract_base_ankles_angles(keypoints)
 
@@ -778,7 +757,6 @@ def assess_form_of_lunge(keypoints):
     Returns:
     list: [number of reps, feedback list]
     """
-    pass
     filename = str(math.floor(random.random() * 2**32))
     
     right_leg_angles , left_leg_angles = extract_lunges_angles(keypoints)
@@ -818,7 +796,6 @@ def assess_form_of_pullup(keypoints):
     Returns:
     list: [number of reps, feedback list]
     """
-    pass
     filename = str(math.floor(random.random() * 2**32))
 
     LOWER_THRESHOLD = 30  

@@ -30,4 +30,4 @@ for e,s in list(f.groupby('exercise'))+[('overall',f)]:
  diff=errors['fixed_loo']-errors['adaptive_loo']; comparisons.append([e,len(s),diff.mean(),*np.quantile(diff[idx].mean(1),[.025,.975])])
 pd.DataFrame(summary,columns=['exercise','n','method','metric','estimate','ci_low','ci_high']).to_csv(P/'threshold_cv_verified_summary.csv',index=False)
 pd.DataFrame(comparisons,columns=['exercise','n','fixed_minus_adaptive_mae','ci_low','ci_high']).to_csv(P/'threshold_cv_verified_paired.csv',index=False)
-pass;pass
+None;None

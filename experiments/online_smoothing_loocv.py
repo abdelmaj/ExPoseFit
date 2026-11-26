@@ -189,8 +189,5 @@ def main(trace_dir, labels_csv, out):
             diff=errors['gaussian_loo']-errors[m]; paired.append([e,n,m,diff.mean(),*np.quantile(diff[idx].mean(1),[.025,.975])])
     q=pd.DataFrame(summary,columns=['exercise','n','method','metric','estimate','ci_low','ci_high']); q.to_csv(out/'smoothing_summary.csv',index=False)
     pd.DataFrame(paired,columns=['exercise','n','method','gaussian_loo_minus_method','ci_low','ci_high']).to_csv(out/'smoothing_paired.csv',index=False)
-    pass
-    pass
-    pass
 if __name__=='__main__':
     p=argparse.ArgumentParser(); p.add_argument('--traces',required=True); p.add_argument('--labels',required=True); p.add_argument('--out',required=True); a=p.parse_args(); main(a.traces,a.labels,a.out)
