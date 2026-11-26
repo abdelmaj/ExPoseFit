@@ -21,28 +21,28 @@ movenet = thunder_model.signatures['serving_default']
 
 
 def extract_keypoints_from_frame(frame: cv2.typing.MatLike):
-    # print("extract_keypoints_from_frame called")
+    
     prepare_img = datetime.now()
 
     now = datetime.now()
     image = tf.expand_dims(frame, axis=0)
-    # print(
-    # f"extract_keypoints_from_frame expand_dims took {(datetime.now() - now).microseconds/1000}ms")
+    
+    
     now = datetime.now()
 
     image = tf.cast(resize_with_pad_cv2(
         image, THUNDER_MOVENET_IMAGE_INPUT_SIZE, THUNDER_MOVENET_IMAGE_INPUT_SIZE,
     ), dtype=tf.int32)
-    # print(
-    # f"extract_keypoints_from_frame cast took {(datetime.now() - now).microseconds/1000}ms")
+    
+    
 
-    # print(
-    # f"extract_keypoints_from_frame preparing image took {(datetime.now() - prepare_img).microseconds/1000}ms")
+    
+    
 
     now = datetime.now()
     movenet_output = movenet(image)
-    # print(
-    # f"extract_keypoints_from_frame took {(datetime.now() - now).microseconds/1000}ms")
+    
+    
 
     return [movenet_output['output_0'], image]
 
@@ -52,7 +52,7 @@ def extract_keypoints_from_video(video_path: str):
     now = datetime.now()
     [video_frames, _, _] = read_video_frames(video_path)
     video_frames = video_frames
-    # video_frames = trim_list_uniformly(video_frames, 30)
+    
     video_keypoints = []
     for frame in video_frames:
         [keyframes, _] = extract_keypoints_from_frame(frame)

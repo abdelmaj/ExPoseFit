@@ -1,4 +1,4 @@
-# Run with Python or in Colab after mounting Drive.
+
 import numpy as np, pandas as pd
 from pathlib import Path
 from collections import deque
@@ -91,7 +91,7 @@ class OnlineRepCounter:
         self.calibrated = True
         self.calibration_status = "ok"
 
-        # replay once so calibration-period reps are not lost
+        
         for a in self.calibration_angles:
             self._state_update(a)
 

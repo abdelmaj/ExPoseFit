@@ -38,7 +38,7 @@ def main(a):
         assert ref.loc[(e,v),'ground_truth']==r.ground_truth
         for rate in ['native','15','10']:
             target=fps if rate=='native' else min(fps,float(rate))
-            # Select latest source frame at each target timestamp, without interpolation or future samples.
+            
             idx=np.arange(len(raw)) if target==fps else np.floor(np.arange(int(np.floor((len(raw)-1)*target/fps+1e-9))+1)*fps/target+1e-9).astype(int)
             assert len(np.unique(idx))==len(idx) and idx[-1]<len(raw)
             x=raw[idx]

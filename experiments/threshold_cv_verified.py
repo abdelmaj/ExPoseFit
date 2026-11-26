@@ -2,7 +2,7 @@ import numpy as np,pandas as pd
 from pathlib import Path
 P=Path(__file__).parent
 A=pd.read_csv(P/'full_angle_trajectories_105(1).csv'); G=pd.read_csv(P/'../data/repetition_counting_dataset.csv').set_index('video_name'); rng=np.random.default_rng(20261124)
-# Prespecified new grids; original grid files not available. Tie: lexicographic ascending, independent of original ratios.
+
 rel=np.array([(a/100,b/100) for a in range(20,51,5) for b in range(55,86,5)])
 absolute=np.array([(a,b) for a in range(5,180,5) for b in range(a+5,181,5)])
 def count(x,ds,us,minimum):

@@ -21,7 +21,7 @@ def extract_base_ankles_angles(keypoints):
     k6 = Keypoints.right_ankle
 
     for keypoint in keypoints:
-        # Extract coordinates for base, knee, ankle
+        
         baseX = (keypoint[k1[0],k1[1],k1[2], 0] + keypoint[k4[0],k4[1],k4[2], 0]) / 2
         baseY = (keypoint[k1[0],k1[1],k1[2], 1] + keypoint[k4[0],k4[1],k4[2], 1]) / 2
 
@@ -30,7 +30,7 @@ def extract_base_ankles_angles(keypoints):
         right_ankle = keypoint[k6[0],k6[1],k6[2], :2]
         left_ankle = keypoint[k3[0],k3[1],k3[2], :2]
 
-        # Compute the angle and add it to the list
+        
         angle = calculate_angle(base, left_ankle, right_ankle)   
         angles.append(angle)     
 
@@ -47,7 +47,7 @@ def extract_pullup_angles(frames):
     left_angles = []
 
     for frame in frames:
-        # Extract coordinates for shoulder, elbow, wrist
+        
         left_shoulder = frame[Keypoints.left_shoulder[0], Keypoints.left_shoulder[1], Keypoints.left_shoulder[2], :2] 
         left_elbow = frame[Keypoints.left_elbow[0], Keypoints.left_elbow[1], Keypoints.left_elbow[2], :2]
         left_wrist = frame[Keypoints.left_wrist[0],  Keypoints.left_wrist[1], Keypoints.left_wrist[2], :2]
@@ -56,7 +56,7 @@ def extract_pullup_angles(frames):
         right_elbow = frame[Keypoints.right_elbow[0], Keypoints.right_elbow[1], Keypoints.right_elbow[2], :2]
         right_wrist = frame[Keypoints.right_wrist[0],  Keypoints.right_wrist[1], Keypoints.right_wrist[2], :2]
 
-        # Compute the angles and add them to lists
+        
         left_angle = calculate_angle(left_elbow, left_shoulder, left_wrist)
         right_angle = calculate_angle(right_elbow, right_shoulder, right_wrist)
         
@@ -76,7 +76,7 @@ def extract_lunges_angles(keypoints):
     left_leg_angles = []
 
     for keypoint in keypoints:
-        # Extract coordinates for hip, knee, ankle
+        
         right_hip = keypoint[Keypoints.right_hip[0], Keypoints.right_hip[1], Keypoints.right_hip[2], :2] 
         right_knee = keypoint[Keypoints.right_knee[0], Keypoints.right_knee[1], Keypoints.right_knee[2], :2]
         right_ankle = keypoint[Keypoints.right_ankle[0], Keypoints.right_ankle[1], Keypoints.right_ankle[2], :2]
@@ -85,7 +85,7 @@ def extract_lunges_angles(keypoints):
         left_knee = keypoint[Keypoints.left_knee[0], Keypoints.left_knee[1], Keypoints.left_knee[2], :2]
         left_ankle = keypoint[Keypoints.left_ankle[0], Keypoints.left_ankle[1], Keypoints.left_ankle[2], :2]
 
-        # Compute the angles and add them to the lists
+        
         right_angle = calculate_angle(right_hip, right_knee, right_ankle)
         left_angle = calculate_angle(left_hip, left_knee, left_ankle)
         
@@ -99,12 +99,12 @@ def extract_squat_angles_confidence_aware(keypoints, conf_thresh=0.3):
     right_angles = []
 
     for kp in keypoints:
-        # left side
+        
         lh = kp[Keypoints.left_hip[0], Keypoints.left_hip[1], Keypoints.left_hip[2], :]
         lk = kp[Keypoints.left_knee[0], Keypoints.left_knee[1], Keypoints.left_knee[2], :]
         la = kp[Keypoints.left_ankle[0], Keypoints.left_ankle[1], Keypoints.left_ankle[2], :]
 
-        # right side
+        
         rh = kp[Keypoints.right_hip[0], Keypoints.right_hip[1], Keypoints.right_hip[2], :]
         rk = kp[Keypoints.right_knee[0], Keypoints.right_knee[1], Keypoints.right_knee[2], :]
         ra = kp[Keypoints.right_ankle[0], Keypoints.right_ankle[1], Keypoints.right_ankle[2], :]
@@ -204,7 +204,7 @@ def extract_situp_angles(keypoints):
         3. hip coordinates
     """
 
-    # Convert once to NumPy
+    
     keypoints = [
         kp.numpy() if hasattr(kp, "numpy") else np.asarray(kp)
         for kp in keypoints
@@ -212,10 +212,10 @@ def extract_situp_angles(keypoints):
 
     keypoints = np.asarray(keypoints)
 
-    # ========================================================
-    # 1. SHOULDER-HIP-KNEE ANGLE
-    #    Vertex = HIP
-    # ========================================================
+    
+    
+    
+    
 
     hip = Keypoints.left_hip
     knee = Keypoints.left_knee
@@ -255,7 +255,7 @@ def extract_situp_angles(keypoints):
 
         hip_cords.append(p_hip)
 
-        # Vertex is the HIP
+        
         angle = calculate_angle(
             p_shoulder,
             p_hip,
@@ -266,10 +266,10 @@ def extract_situp_angles(keypoints):
             angle
         )
 
-    # ========================================================
-    # 2. HIP-KNEE-ANKLE ANGLE
-    #    Vertex = KNEE
-    # ========================================================
+    
+    
+    
+    
 
     ankle = Keypoints.left_ankle
 
@@ -296,7 +296,7 @@ def extract_situp_angles(keypoints):
             ankle_pts[i][0]
         ]
 
-        # Vertex is the KNEE
+        
         angle = calculate_angle(
             p_hip,
             p_knee,
@@ -435,9 +435,9 @@ def asses_form_of_pushup(keypoints):
     if motion_range < 15:
         return [0, ["Not enough pushup motion detected"]]
 
-    # For pushups:
-    # bottom position -> smaller elbow angle
-    # top position    -> larger elbow angle
+    
+    
+    
     down_th = min_a + 0.35 * motion_range
     up_th = min_a + 0.75 * motion_range
 
@@ -461,7 +461,7 @@ def asses_form_of_pushup(keypoints):
         if state == "UP":
             current_top = max(current_top, a)
 
-            # Start rep when elbow angle gets low enough
+            
             if a < down_th:
                 state = "DOWN"
                 rep_bottom = a
@@ -469,7 +469,7 @@ def asses_form_of_pushup(keypoints):
         elif state == "DOWN":
             rep_bottom = min(rep_bottom, a)
 
-            # Count rep only when user comes back up enough
+            
             if a > up_th and frames_since_last_rep >= min_frames_between_reps:
                 went_low_enough = rep_bottom < down_th
                 came_up_enough = a > up_th
@@ -482,7 +482,7 @@ def asses_form_of_pushup(keypoints):
                 rep_bottom = float("inf")
                 frames_since_last_rep = 0
 
-    # Extra analysis for bad reps
+    
     for i in range(1, len(angles) - 1):
         if angles[i] < angles[i - 1] and angles[i] < angles[i + 1]:
             local_min = angles[i]
@@ -490,11 +490,11 @@ def asses_form_of_pushup(keypoints):
             left_peak = max(angles[max(0, i - 12):i]) if i > 0 else angles[i]
             right_peak = max(angles[i + 1:min(len(angles), i + 13)]) if i + 1 < len(angles) else angles[i]
 
-            # Attempted rep but did not go low enough
+            
             if (left_peak - local_min > 10) and (right_peak - local_min > 10) and local_min >= down_th:
                 shallow_reps += 1
 
-            # Went down but did not extend enough at the top
+            
             elif local_min < down_th and right_peak <= up_th:
                 incomplete_up_reps += 1
 
@@ -531,9 +531,9 @@ def asses_form_of_situps(keypoints):
     if motion_range < 12:
         return [0, ["Not enough situp motion detected"]]
 
-    # For situps in your formulation:
-    # lower angle -> upper body closer to knees
-    # higher angle -> return position
+    
+    
+    
     down_th = min_a + 0.3 * motion_range
     up_th = min_a + 0.7 * motion_range
 
@@ -547,7 +547,7 @@ def asses_form_of_situps(keypoints):
     shallow_reps = 0
     incomplete_up_reps = 0
 
-    # Knee-position warnings across the video
+    
     if any(x > HIP_KNEE_ANKLE_MAX for x in hip_knee_ankle_angles):
         feedback.append("Close your knees more")
     if any(x < HIP_KNEE_ANKLE_MIN for x in hip_knee_ankle_angles):
@@ -566,7 +566,7 @@ def asses_form_of_situps(keypoints):
         if state == "UP":
             current_top = max(current_top, a)
 
-            # Start a situp when angle gets low enough
+            
             if a < down_th:
                 state = "DOWN"
                 rep_bottom = a
@@ -574,7 +574,7 @@ def asses_form_of_situps(keypoints):
         elif state == "DOWN":
             rep_bottom = min(rep_bottom, a)
 
-            # Count rep only when returning high enough
+            
             if a > up_th and frames_since_last_rep >= min_frames_between_reps:
                 went_low_enough = rep_bottom < down_th
                 came_up_enough = a > up_th
@@ -587,7 +587,7 @@ def asses_form_of_situps(keypoints):
                 rep_bottom = float("inf")
                 frames_since_last_rep = 0
 
-    # Extra analysis for incomplete reps
+    
     for i in range(1, len(angles) - 1):
         if angles[i] < angles[i - 1] and angles[i] < angles[i + 1]:
             local_min = angles[i]
@@ -595,11 +595,11 @@ def asses_form_of_situps(keypoints):
             left_peak = max(angles[max(0, i - 12):i]) if i > 0 else angles[i]
             right_peak = max(angles[i + 1:min(len(angles), i + 13)]) if i + 1 < len(angles) else angles[i]
 
-            # Attempted rep but did not get close enough to knees
+            
             if (left_peak - local_min > 8) and (right_peak - local_min > 8) and local_min >= down_th:
                 shallow_reps += 1
 
-            # Got close enough, but did not return enough
+            
             elif local_min < down_th and right_peak <= up_th:
                 incomplete_up_reps += 1
 
@@ -681,7 +681,7 @@ def asses_form_of_situps(keypoints):
 
 def asses_form_of_bridges(keypoints):
     print("asses_form_of_bridges called")
-    # bridges use the same key points as situps
+    
     [shoulder_hip_knee_angles,
      hip_knee_ankle_angles, hip_cords] = extract_situp_angles(keypoints)
     MIN_THRESHOLD = 12
@@ -692,11 +692,11 @@ def asses_form_of_bridges(keypoints):
     reps = 0
     min_angle = min(shoulder_hip_knee_angles)
 
-    # if any(x > HIP_KNEE_ANKLE_MAX for x in hip_knee_ankle_angles):
-    #     feedback.append("Close you knees more")
+    
+    
 
-    # if any(x < HIP_KNEE_ANKLE_MIN for x in hip_knee_ankle_angles):
-    #     feedback.append("Open you knees more")
+    
+    
 
     if all(x > RETURN_THRESHOLD for x in shoulder_hip_knee_angles):
         return [0, []]
@@ -788,12 +788,12 @@ def assess_form_of_lunge(keypoints):
     
     LOWER_THRESHOLD = 70  
     UPPER_THRESHOLD = 160  
-    DANGER_THRESHOLD = 60  # Angle too low, potential strain
+    DANGER_THRESHOLD = 60  
     feedback = []
     reps = 0
 
-    # if(min(angles) == DANGER_THRESHOLD):
-    #     feedback.append("You're going too low , potential strain")
+    
+    
     
     reps1 = min(count_line_intersections(angles, LOWER_THRESHOLD,filename=filename + "-lunge-min.png"),
                count_line_intersections(angles, UPPER_THRESHOLD,filename=filename + "-lunge-max.png")) / 2

@@ -1,6 +1,6 @@
 import io
 from typing import List, Tuple
-# import av
+
 from constants import *
 from datetime import datetime
 from scipy.signal import savgol_filter
@@ -31,7 +31,7 @@ def trim_list_uniformly(input_list, target_size=30):
     :return: A new list with `target_size` elements, uniformly selected.
     """
     if len(input_list) <= target_size:
-        # No trimming needed if the list is already small enough.
+        
         return input_list
 
     step = len(input_list) / target_size
@@ -47,11 +47,11 @@ def calculate_angle(a, b, c):
     b = np.array(b)
     c = np.array(c)
 
-    # Vectors from elbow to shoulder and wrist
+    
     ab = a - b
     cb = c - b
 
-    # Calculate the angle using the dot product
+    
     cosine_angle = np.dot(ab, cb) / (np.linalg.norm(ab) * np.linalg.norm(cb))
     cosine_angle = np.clip(cosine_angle, -1.0, 1.0)
     angle = np.degrees(np.arccos(cosine_angle))
@@ -67,21 +67,21 @@ def smooth_data(data, window_length=8):
         return data
 
 
-# def read_video_frames_from_bytearray(video_bytes: bytearray) -> list:
-#     print("called read_video_frames_from_bytearray")
-#     now = datetime.now()
-#     video_stream = io.BytesIO(video_bytes)
 
-#     container = av.open(video_stream)
-#     frames = []
-#     for frame in container.decode(video=0):
-#         # Decode video frame, and convert to NumPy array in BGR pixel format (use BGR because it used by OpenCV).
-#         frame = frame.to_ndarray(format='bgr24')
-#         frames.append(frame)
 
-#     container.close()
-#     print(f"read_video_frames_from_bytearray took: {datetime.now() - now}")
-#     return trim_list_to_third_in_size(frames)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def read_video_frames(video_path: str) -> Tuple[List[cv2.typing.MatLike], int, float]:
@@ -118,7 +118,7 @@ def resize_with_pad_cv2(image, target_height, target_width):
     delta_h = target_height - new_size[1]
     top, bottom = delta_h // 2, delta_h - (delta_h // 2)
     left, right = delta_w // 2, delta_w - (delta_w // 2)
-    # Padding color, this is black which is what tf pads with by default
+    
     color = [0, 0, 0]
     new_image = cv2.copyMakeBorder(
         resized_image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
@@ -136,10 +136,10 @@ def split_at_minima(lst):
         tuple: A tuple containing two lists. The first includes elements
                up to and including the minima, the second starts after the minima.
     """
-    # Find the index of the first occurrence of the minimum value
+    
     min_index = lst.index(min(lst))
 
-    # Split the list
+    
     part1 = lst[:min_index + 1]
     part2 = lst[min_index + 1:]
 
@@ -160,14 +160,14 @@ def count_line_intersections(values: list, line, filename: str = None) -> int:
     Returns:
     int: The number of intersections.
     """
-    # Handle edge cases
+    
     if len(values) == 0:
         return 0
 
     intersections = 0
 
     for i in range(len(values) - 1):
-        # Check if the line intersects between two consecutive points
+        
         if (values[i] < line < values[i + 1]) or (values[i] > line > values[i + 1]) \
                 or line == values[i] or line == values[i + 1]:
             intersections += 1
@@ -186,12 +186,12 @@ def save_list_plot(values: list, line_y: float = None, filename: str = None):
     filename (str): The filename to save the plot (e.g., "plot.png").
     line_y (float, optional): If provided, a horizontal line at this y-value will be added to the plot.
     """
-    # Ensure the directory for the file exists
-    # Create the plot
+    
+    
     plt.figure(figsize=(12, 6))
     plt.plot(values, label="Values")
 
-    # Add a horizontal line if specified
+    
     if line_y is not None:
         plt.axhline(y=line_y, color='red', linestyle='--',
                     label=f'Line at y={line_y}')
@@ -202,9 +202,9 @@ def save_list_plot(values: list, line_y: float = None, filename: str = None):
     plt.legend()
     plt.grid()
 
-    # Save the plot to the specified file
+    
     plt.savefig(filename)
-    plt.close()  # Close the plot to free memory
+    plt.close()  
 
 
 def remove_anomalies_and_interpolate(data, threshold=2.0, window_size=3):
@@ -219,17 +219,17 @@ def remove_anomalies_and_interpolate(data, threshold=2.0, window_size=3):
     Returns:
         tuple: (list of cleaned and interpolated data, list of anomaly indices)
     """
-    data = np.array(data, dtype=float)  # Convert to numpy array
+    data = np.array(data, dtype=float)  
     anomalies = []
 
-    # Detect anomalies
+    
     for i in range(len(data)):
         start_idx = max(0, i - window_size // 2)
         end_idx = min(len(data), i + window_size // 2 + 1)
-        # Exclude current point
+        
         window = np.concatenate((data[start_idx:i], data[i + 1:end_idx]))
 
-        if len(window) < 2:  # Skip if insufficient data in the window
+        if len(window) < 2:  
             continue
 
         mean = np.mean(window)
@@ -238,11 +238,11 @@ def remove_anomalies_and_interpolate(data, threshold=2.0, window_size=3):
         if abs(data[i] - mean) > threshold * std_dev:
             anomalies.append(i)
 
-    # Remove anomalies
+    
     for idx in anomalies:
         data[idx] = np.nan
 
-    # Interpolate missing values
+    
     nan_indices = np.isnan(data)
     valid_indices = ~nan_indices
     data[nan_indices] = np.interp(np.flatnonzero(
@@ -270,13 +270,13 @@ def determine_highest_confidence_for_lower(keypoints):
     right_confidence, left_confidence = 0, 0
     
     for keypoint in keypoints:
-        # Extract confidence scores for the right leg
+        
         right_confidence += (
         keypoint[Keypoints.right_hip] +
         keypoint[Keypoints.right_knee] +
         keypoint[Keypoints.right_ankle])[2]
 
-        # Extract confidence scores for the left leg
+        
         left_confidence += (
         keypoint[Keypoints.left_hip] +
         keypoint[Keypoints.left_knee] +
@@ -304,13 +304,13 @@ def determine_highest_confidence_for_upper(keypoints):
     right_confidence, left_confidence = 0, 0
     
     for keypoint in keypoints:
-        # Extract confidence scores for the right leg
+        
         right_confidence += (
         keypoint[Keypoints.right_elbow] +
         keypoint[Keypoints.right_shoulder] +
         keypoint[Keypoints.right_wrist])[2]
 
-        # Extract confidence scores for the left leg
+        
         left_confidence += (
         keypoint[Keypoints.left_elbow] +
         keypoint[Keypoints.left_shoulder] +
