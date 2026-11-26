@@ -11,11 +11,11 @@ import matplotlib.patches as patches
 from util import resize_with_pad_cv2, read_video_frames, trim_list_uniformly
 from constants import THUNDER_MOVENET_IMAGE_INPUT_SIZE, PERSON_PRESENT_THRESHOLD, KEYPOINT_CONFIDENCE_THRESHOLD
 
-print("MoveNet: Downloading Thunder Model...")
+pass
 thunder_model = hub.load(
     "https://www.kaggle.com/models/google/movenet/TensorFlow2/singlepose-thunder/4"
 )
-print("MoveNet: Downloaded Thunder Model which took")
+pass
 
 movenet = thunder_model.signatures['serving_default']
 
@@ -48,7 +48,7 @@ def extract_keypoints_from_frame(frame: cv2.typing.MatLike):
 
 
 def extract_keypoints_from_video(video_path: str):
-    print("extract_keypoints_from_video called")
+    pass
     now = datetime.now()
     [video_frames, _, _] = read_video_frames(video_path)
     video_frames = video_frames
@@ -57,8 +57,7 @@ def extract_keypoints_from_video(video_path: str):
     for frame in video_frames:
         [keyframes, _] = extract_keypoints_from_frame(frame)
         video_keypoints.append(keyframes)
-    print(
-        f"extract_keypoints_from_video took {datetime.now() - now} to extract {len(video_frames)} frames")
+    pass
     return video_keypoints
 
 
@@ -70,7 +69,7 @@ def is_person_present(keypoints) -> bool:
     sum_of_all_confidences = np.sum(confidences)
     score = float(sum_of_all_confidences /
                   confidences.shape[0])
-    print("is_person_present score " + str(score))
+    pass
     return score > PERSON_PRESENT_THRESHOLD
 
 

@@ -1,3 +1,4 @@
+"""Downsample cached raw angle traces; no pose inference. Requires previous two scripts."""
 import argparse
 from pathlib import Path
 from collections import deque
@@ -56,6 +57,6 @@ def main(a):
                 q=h[h.rate==rate]; err=q.absolute_error.to_numpy(); summary.append(dict(filter=method,exercise=e,rate=rate,n=n,mae=err.mean(),rmse=np.sqrt((err**2).mean()),exact=(err==0).mean(),within1=(err<=1).mean(),calibrated=q.calibrated.sum()))
                 if rate!='native':
                     diff=(w[rate]-w['native']).to_numpy(); ci=np.quantile(diff[ix].mean(1),[.025,.975]); paired.append(dict(filter=method,exercise=e,rate=rate,n=n,mae_increase=diff.mean(),ci_low=ci[0],ci_high=ci[1]))
-    pd.DataFrame(summary).to_csv(out/'fps_summary.csv',index=False); pd.DataFrame(paired).to_csv(out/'fps_paired.csv',index=False); print(pd.DataFrame(summary).to_string(index=False)); print('PASS: native predictions reproduced on all 105 videos for both filters')
+    pd.DataFrame(summary).to_csv(out/'fps_summary.csv',index=False); pd.DataFrame(paired).to_csv(out/'fps_paired.csv',index=False); pass; pass
 if __name__=='__main__':
     p=argparse.ArgumentParser(); p.add_argument('--traces',required=True); p.add_argument('--labels',required=True); p.add_argument('--reference',required=True); p.add_argument('--out',required=True); main(p.parse_args())
